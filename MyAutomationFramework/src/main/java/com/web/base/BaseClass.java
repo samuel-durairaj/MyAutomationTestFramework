@@ -14,6 +14,8 @@ import org.testng.annotations.BeforeTest;
 
 import com.web.actiondriver.Action;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class BaseClass {
 
 	//public static WebDriver driver;
@@ -44,19 +46,17 @@ public class BaseClass {
 		//WebDriverManager.chromedriver().setup();
 		String browserName = prop.getProperty("browser");
 		
-		if(browserName.contains("Chrome")) {
+		if(browserName.equalsIgnoreCase("Chrome")) {
 			System.setProperty(browserName, "C:\\Drivers\\chromedriver.exe");
 			//driver = new ChromeDriver();
-			//Set Browser to ThreadLocalCamp
-			driver.set(new ChromeDriver());
-		}else if (browserName.contains("FireFox")) {
+			driver.set(new ChromeDriver()); //Set Browser to ThreadLocalCamp
+		}else if (browserName.equalsIgnoreCase("FireFox")) {
 			//driver = new FirefoxDriver();
-			//Set Browser to ThreadLocalCamp
-			driver.set(new FirefoxDriver());
-		}else if (browserName.contains("IE")) {
+			WebDriverManager.firefoxdriver().setup();
+			driver.set(new FirefoxDriver());//Set Browser to ThreadLocalCamp
+		}else if (browserName.equalsIgnoreCase("IE")) {
 			//driver = new InternetExplorerDriver();
-			//Set Browser to ThreadLocalCamp
-			driver.set(new InternetExplorerDriver());
+			driver.set(new InternetExplorerDriver());//Set Browser to ThreadLocalCamp
 		}
 		Action.implicitWait(getDriver(), 10);
 		Action.pageLoadTimeOut(getDriver(), 30);
